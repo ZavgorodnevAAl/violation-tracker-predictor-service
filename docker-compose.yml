@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  predictor-service:
+    container_name: predictor-service
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./configs/prod.yml:/app/configs/config.yml
+      - /project/predictor-service/logs:/app/logs
+    networks:
+      - prod-network
+
+networks:
+  prod-network:
+    name: prod-network
+    external: true

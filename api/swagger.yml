@@ -1,0 +1,101 @@
+swagger: "2.0"
+info:
+  title: predictor-service
+  version: 0.5.4
+  description: обработчик схематики для предсказания нарушения
+basePath: /
+
+
+tags:
+  - name: predictor_tag
+    description: тег для запросов завязанных на предсказании
+
+paths:
+  # PREDICTOR
+  /upload:
+    # predict
+    post:
+      tags:
+        - predictor_tag
+      operationId: upload___post
+      summary: Запрос на загрузку видоса
+      consumes:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          description: body
+          required: true
+          schema:
+            type: object
+            properties:
+              video_base64:
+                type: string
+
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Возвращаемые ответы
+          schema:
+            type: object
+            properties:
+              token:
+                type: integer
+                format: uint64
+        500:
+          description: Ошибка сервера
+          schema:
+            $ref: '#/definitions/error_500'
+  
+  /info:
+    # predict
+    get:
+      tags:
+        - predictor_tag
+      operationId: info___get
+      summary: Запрос на получение информации о предикторе по токену
+      consumes:
+        - application/json
+      parameters:
+        - name: token
+          in: query
+          type: integer
+          format: uint64
+          required: true
+          description: токен
+
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Возвращаемые ответы
+          schema:
+            $ref: '#/definitions/info_200'
+        500:
+          description: Ошибка сервера
+          schema:
+            $ref: '#/definitions/error_500'
+
+
+definitions:
+  error_500:
+    type: object
+    properties:
+      error:  
+        type: string
+
+  info_200:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: uint64
+      persent:
+        type: number
+        format: float64
+      out:
+        type: array
+        items:
+          type: integer
+          format: int
