@@ -15,7 +15,7 @@
 3. Перейдите в main каталог:
 
    ```bash
-   cd violation-tracker-predictor-service.git
+   cd violation-tracker-predictor-service
    ```
 
 6. Запустите сервис с помощью Docker Compose:
